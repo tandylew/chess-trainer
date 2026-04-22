@@ -5,25 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blindfold Chess Trainer</title>
   <style>
+    :root {
+      --bg: #1a1a1a;
+      --surface: #242424;
+      --text: #e8e8e8;
+      --muted: #666;
+      --accent: #a8c0e8;
+      --sq-light: #f0d9b5;
+      --sq-dark: #b58863;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: system-ui, sans-serif;
-      background: #1a1a1a;
-      color: #e8e8e8;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100dvh;
+    }
+
+    /* Views */
+    .view { display: none; padding: 2rem; min-height: 100dvh; }
+    .view.active { display: flex; flex-direction: column; }
+
+    /* Menu */
+    #view-menu { align-items: center; justify-content: center; gap: 2rem; }
+    #view-menu h1 { font-size: 1.5rem; letter-spacing: 0.04em; }
+    .drill-list {
+      list-style: none;
       display: flex;
       flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 360px;
+    }
+    .drill-list a {
+      display: block;
+      padding: 1rem 1.5rem;
+      background: var(--surface);
+      color: var(--accent);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .drill-list a:active { background: #2e2e2e; }
+
+    /* Drill views */
+    .drill-view { gap: 1.25rem; }
+    .drill-view h2 { font-size: 1.25rem; }
+    .drill-placeholder { color: var(--muted); font-size: 0.95rem; }
+    .back-btn {
+      align-self: flex-start;
+      background: none;
+      border: 1px solid var(--muted);
+      color: var(--muted);
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .back-btn:active { color: var(--text); border-color: var(--text); }
+
+    /* Peek board overlay */
+    #peek-board {
+      position: fixed;
+      inset: 0;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      padding: 2rem;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 100;
     }
-    h1 { font-size: 1.75rem; letter-spacing: 0.02em; }
-    p { color: #888; font-size: 0.95rem; }
+    #peek-board.hidden { display: none; }
+    .peek-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      width: min(88vw, 88vh);
+      aspect-ratio: 1;
+      border: 2px solid #555;
+    }
+    .sq { position: relative; }
+    .sq.light { background: var(--sq-light); }
+    .sq.dark  { background: var(--sq-dark); }
+    .sq-label {
+      position: absolute;
+      bottom: 2px;
+      left: 3px;
+      font-size: clamp(0.4rem, 1.2vw, 0.65rem);
+      line-height: 1;
+      font-family: monospace;
+      pointer-events: none;
+    }
+    .sq.light .sq-label { color: rgba(0, 0, 0, 0.45); }
+    .sq.dark  .sq-label { color: rgba(255, 255, 255, 0.4); }
   </style>
 </head>
 <body>
-  <h1>Blindfold Chess Trainer</h1>
-  <p>Coming Now</p>
+
+  <!-- Menu -->
+  <div id="view-menu" class="view active">
+    <h1>Blindfold Chess Trainer</h1>
+    <ul class="drill-list">
+      <li><a href="#square-color">Square Color</a></li>
+      <li><a href="#knight-sight">Knight Sight</a></li>
+      <li><a href="#piece-tracking">Piece Tracking</a></li>
+      <li><a href="#diagonal-sweep">Diagonal Sweep</a></li>
+    </ul>
+  </div>
+
+  <!-- Drill: Square Color -->
+  <div id="view-square-color" class="view drill-view">
+    <button class="back-btn">← Back to Menu</button>
+    <h2>Square Color</h2>
+    <p class="drill-placeholder">Drill coming soon.</p>
+  </div>
+
+  <!-- Drill: Knight Sight -->
+  <div id="view-knight-sight" class="view drill-view">
+    <button class="back-btn">← Back to Menu</button>
+    <h2>Knight Sight</h2>
+    <p class="drill-placeholder">Drill coming soon.</p>
+  </div>
+
+  <!-- Drill: Piece Tracking -->
+  <div id="view-piece-tracking" class="view drill-view">
+    <button class="back-btn">← Back to Menu</button>
+    <h2>Piece Tracking</h2>
+    <p class="drill-placeholder">Drill coming soon.</p>
+  </div>
+
+  <!-- Drill: Diagonal Sweep -->
+  <div id="view-diagonal-sweep" class="view drill-view">
+    <button class="back-btn">← Back to Menu</button>
+    <h2>Diagonal Sweep</h2>
+    <p class="drill-placeholder">Drill coming soon.</p>
+  </div>
+
+  <!-- Peek board overlay (populated by peek.js) -->
+  <div id="peek-board" class="hidden"></div>
+
+  <script type="module" src="src/drills.js"></script>
+  <script type="module" src="src/peek.js"></script>
 </body>
 </html>
