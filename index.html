@@ -8,9 +8,12 @@
     :root {
       --bg: #1a1a1a;
       --surface: #242424;
+      --surface-2: #2e2e2e;
       --text: #e8e8e8;
       --muted: #666;
       --accent: #a8c0e8;
+      --ok: #7bd88f;
+      --bad: #ef6c6c;
       --sq-light: #f0d9b5;
       --sq-dark: #b58863;
     }
@@ -47,12 +50,11 @@
       font-size: 1.1rem;
       text-align: center;
     }
-    .drill-list a:active { background: #2e2e2e; }
+    .drill-list a:active { background: var(--surface-2); }
 
     /* Drill views */
     .drill-view { gap: 1.25rem; }
     .drill-view h2 { font-size: 1.25rem; }
-    .drill-placeholder { color: var(--muted); font-size: 0.95rem; }
     .back-btn {
       align-self: flex-start;
       background: none;
@@ -64,6 +66,129 @@
       cursor: pointer;
     }
     .back-btn:active { color: var(--text); border-color: var(--text); }
+
+    .drill-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    /* Shared drill UI */
+    .btn {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn:active { background: var(--surface-2); }
+    .btn[disabled] { opacity: 0.5; cursor: default; }
+    .btn-xl {
+      padding: 1.75rem 1.25rem;
+      font-size: 1.25rem;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #1a1a1a;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .drill-feedback {
+      min-height: 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .drill-feedback.ok  { color: var(--ok); }
+    .drill-feedback.bad { color: var(--bad); }
+    .drill-tally {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .drill-end {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      padding-top: 2rem;
+    }
+    .drill-end-score {
+      font-size: 1.25rem;
+      text-align: center;
+    }
+
+    /* Square Color */
+    .sc-prompt {
+      font-size: 2.5rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 1rem 0;
+      color: var(--muted);
+    }
+    .sc-prompt.sc-prompt-fallback { color: var(--text); }
+    .sc-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    /* Knight Sight + Diagonal Sweep shared text-input UI */
+    .drill-prompt {
+      font-size: 1.1rem;
+      line-height: 1.4;
+      color: var(--text);
+    }
+    .drill-input-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .drill-input {
+      flex: 1;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .drill-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .mic-btn {
+      width: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      font-size: 1.2rem;
+    }
+    .mic-btn.listening { background: var(--accent); color: #1a1a1a; }
+    .drill-note {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    /* Piece Tracking */
+    .pt-sequence {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-family: monospace;
+      min-height: 1.5rem;
+    }
+    .pt-question {
+      font-size: 1.15rem;
+    }
+    .pt-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
 
     /* Peek board overlay */
     #peek-board {
@@ -117,28 +242,28 @@
   <div id="view-square-color" class="view drill-view">
     <button class="back-btn">← Back to Menu</button>
     <h2>Square Color</h2>
-    <p class="drill-placeholder">Drill coming soon.</p>
+    <div class="drill-body" data-drill="square-color"></div>
   </div>
 
   <!-- Drill: Knight Sight -->
   <div id="view-knight-sight" class="view drill-view">
     <button class="back-btn">← Back to Menu</button>
     <h2>Knight Sight</h2>
-    <p class="drill-placeholder">Drill coming soon.</p>
+    <div class="drill-body" data-drill="knight-sight"></div>
   </div>
 
   <!-- Drill: Piece Tracking -->
   <div id="view-piece-tracking" class="view drill-view">
     <button class="back-btn">← Back to Menu</button>
     <h2>Piece Tracking</h2>
-    <p class="drill-placeholder">Drill coming soon.</p>
+    <div class="drill-body" data-drill="piece-tracking"></div>
   </div>
 
   <!-- Drill: Diagonal Sweep -->
   <div id="view-diagonal-sweep" class="view drill-view">
     <button class="back-btn">← Back to Menu</button>
     <h2>Diagonal Sweep</h2>
-    <p class="drill-placeholder">Drill coming soon.</p>
+    <div class="drill-body" data-drill="diagonal-sweep"></div>
   </div>
 
   <!-- Peek board overlay (populated by peek.js) -->
