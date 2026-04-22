@@ -74,3 +74,51 @@ export function knightDistance(start, target) {
   const p = knightShortestPath(start, target);
   return p ? p.length - 1 : -1;
 }
+
+export function diagonals(minLength = 4) {
+  const out = [];
+  // NE (a1-h8 direction): rank - fi = k
+  for (let k = -7; k <= 8; k++) {
+    const squares = [];
+    for (let fi = 0; fi < 8; fi++) {
+      const rank = fi + k;
+      if (rank >= 1 && rank <= 8) squares.push(FILES[fi] + rank);
+    }
+    if (squares.length >= minLength) {
+      out.push({
+        name: `${squares[0]}-${squares[squares.length - 1]}`,
+        squares,
+        direction: 'ne',
+      });
+    }
+  }
+  // NW (a8-h1 direction): rank + fi = k
+  for (let k = 1; k <= 15; k++) {
+    const squares = [];
+    for (let fi = 0; fi < 8; fi++) {
+      const rank = k - fi;
+      if (rank >= 1 && rank <= 8) squares.push(FILES[fi] + rank);
+    }
+    if (squares.length >= minLength) {
+      out.push({
+        name: `${squares[0]}-${squares[squares.length - 1]}`,
+        squares,
+        direction: 'nw',
+      });
+    }
+  }
+  return out;
+}
+
+export function parseSquareList(text) {
+  const t = (text || '').toLowerCase().replace(/[.,;]/g, ' ');
+  const tokens = t.split(/[\s\-]+|\bto\b|\band\b/g).map(s => s.trim()).filter(Boolean);
+  return tokens.filter(s => /^[a-h][1-8]$/.test(s));
+}
+
+export function sameSquareSet(a, b) {
+  const sa = [...new Set(a)].sort();
+  const sb = [...new Set(b)].sort();
+  if (sa.length !== sb.length) return false;
+  return sa.every((s, i) => s === sb[i]);
+}
