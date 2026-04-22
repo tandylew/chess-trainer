@@ -1,9 +1,11 @@
 import SquareColorDrill from './drills/square-color.js';
+import KnightSightDrill from './drills/knight-sight.js';
 
 const DRILL_IDS = ['square-color', 'knight-sight', 'piece-tracking', 'diagonal-sweep'];
 
 const DRILL_CLASSES = {
   'square-color': SquareColorDrill,
+  'knight-sight': KnightSightDrill,
 };
 
 class DrillManager {
